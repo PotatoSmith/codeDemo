@@ -57,4 +57,8 @@ class Algorithm {
         }
         return $arr;
     }
+
+    public static function quickSort() {
+        
+    }
 }
