@@ -58,7 +58,29 @@ class Algorithm {
         return $arr;
     }
 
-    public static function quickSort() {
-        
+    /**
+     * 快速排序 O(n^2)
+     * @param array $arr
+     * @return array
+     * @author Potato
+     */
+    public static function quickSort($arr) {
+        $count = count($arr);
+        if ($count < 2) {
+            return $arr;
+        }
+
+        $aLeft = $aRight = [];
+        $mid = $arr[0];
+        for ($i=1; $i<$count; $i++) {
+            if ($arr[$i] > $mid) {
+                $aRight[] = $arr[$i];
+            } else {
+                $aLeft[] = $arr[$i];
+            }
+        }
+        $aLeft = self::quickSort($aLeft);
+        $aRight = self::quickSort($aRight);
+        return array_merge($aLeft, [$mid], $aRight);
     }
 }
