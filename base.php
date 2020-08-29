@@ -83,4 +83,36 @@ class Algorithm {
         $aRight = self::quickSort($aRight);
         return array_merge($aLeft, [$mid], $aRight);
     }
+
+    /**
+     * 斐波那契数列 O(n^2)
+     * @param int $n 第N位
+     * @return int 值
+     * @author Potato
+     */
+    public static function fibonq($n) {
+        if ($n <= 0) {
+            return 0;
+        }
+        if ($n <= 2) {
+            return 1;
+        }
+        return self::fibonq($n-1) + self::fibonq($n-2);
+    }
+
+    /**
+     * 斐波那契数列优化
+     * @param int $n 第N位
+     * @return int 值
+     * @author Potato
+     */
+    public static function fibonq2($n, $a=1, $b=1) {
+        if ($n <= 0) {
+            return 0;
+        }
+        if ($n <= 1) {
+            return $b;
+        }
+        return self::fibonq2($n-1, $b, $a+$b);
+    }
 }
