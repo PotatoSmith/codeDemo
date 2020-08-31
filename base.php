@@ -115,4 +115,29 @@ class Algorithm {
         }
         return self::fibonq2($n-1, $b, $a+$b);
     }
+
+    /**
+     * 二分查找 O(logn)
+     * @param array $arr 需要查找的有序数组数组
+     * @param int $key
+     * @return int key在数组中位置
+     * @author Potato
+     */
+    public static function binarySearch($arr, $key) {
+        $low = 1;
+        $high = count($arr);
+
+        while ($low <= $high) {
+            $mid = intval(($low + $high) / 2);
+            if ($key < $arr[$mid]) {
+                $high = $mid - 1;
+            } elseif ($key > $arr[$mid]) {
+                $low = $mid + 1;
+            } else {
+                return $mid;
+            }
+        }
+
+        return -1; // 不在数组
+    }
 }
