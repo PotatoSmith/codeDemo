@@ -39,7 +39,7 @@ class Algorithm {
     }
 
     /**
-     * 冒泡排序 O(n^2)
+     * 冒泡排序 O(n^2) 稳定 Bubble Sort
      * @param array $arr
      * @return array
      * @author Potato
@@ -59,7 +59,36 @@ class Algorithm {
     }
 
     /**
-     * 快速排序 O(n^2)
+     * 鸡尾酒排序 (小到大 大到小) 冒泡排序的改进
+     */
+    public static function cocktailSort($arr) {
+        $len = count($arr);
+        $left = 0;
+        $right = $len - 1;
+
+        while ($left < $right) {
+            for ($i=$left; $i<$right; $i++) {
+                if ($arr[$i] > $arr[$i+1]) {
+                    $tmp = $arr[$i];
+                    $arr[$i] = $arr[$i+1];
+                    $arr[$i+1] = $tmp;
+                }
+            }
+            $right--;
+            for ($j=$right; $j>$left; $j--) {
+                if ($arr[$j-1] > $arr[$j]) {
+                    $tmp = $arr[$j];
+                    $arr[$j] = $arr[$j-1];
+                    $arr[$j-1] = $tmp;
+                }
+            }
+            $left++;
+        }
+        return $arr;
+    }
+
+    /**
+     * 快速排序 O(nlogn) 不稳定
      * @param array $arr
      * @return array
      * @author Potato
@@ -82,6 +111,27 @@ class Algorithm {
         $aLeft = self::quickSort($aLeft);
         $aRight = self::quickSort($aRight);
         return array_merge($aLeft, [$mid], $aRight);
+    }
+
+    /**
+     * 选择排序 O(n^2) 不稳定
+     */
+    public static function selectSort($arr) {
+        $len = count($arr);
+        for($i=0; $i<$len-1; $i++) {
+            $min = $i;
+            for ($j=$i+1; $j<$len; $j++) {
+                if ($arr[$j] < $arr[$min]) {
+                    $min = $j;
+                }
+            }
+            if ($min!=$i) {
+                $tmp = $arr[$i];
+                $arr[$i] = $arr[$min];
+                $arr[$min] = $tmp;
+            }
+        }
+        return $arr;
     }
 
     /**
@@ -141,6 +191,9 @@ class Algorithm {
         return -1; // 不在数组
     }
 
+    /**
+     * 插入排序 O(n^2) 稳定
+     */
     public static function insertSort($arr) {
         for ($i=0; $i<count($arr); $i++) {
             $val = $arr[$i];
@@ -153,8 +206,32 @@ class Algorithm {
         }
         return $arr;
     }
+
+    /**
+     * 希尔排序 O(n^2) 不稳定
+     */
+    public static function shellSort($arr) {
+        $len = count($arr);
+        $h = 0;
+        while($h <= $len) {
+            $h = 3 * $h + 1;
+        }
+
+        while ($h >= 1) {
+            for ($i=$h; $i<$len; $i++) {
+                $j = $i - $h;
+                $tmp = $arr[$i];
+                while ($j >= 0 && $arr[$j] > $tmp) {
+                    $arr[$j+$h] = $arr[$j];
+                    $j = $j-$h;
+                }
+                $arr[$j+$h] = $tmp;
+            }
+            $h = ($h - 1)/3;
+        }
+        return $arr;
+    }
+
 }
 
-
-
-print_r (Algorithm::insertSort([1,3,6,7,9,2,4,8,5]));
+// print_r(Algorithm::shellSort([1,3,6,7,9,2,4,8,5]));
