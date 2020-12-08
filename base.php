@@ -232,6 +232,95 @@ class Algorithm {
         return $arr;
     }
 
+    /**
+     * 归并排序 O(nlogn)
+     */
+    public static function merge(&$arr, $left, $mid, $right) {
+        $len = $right - $left + 1;
+        $tmp = [];
+        $index = 0;
+        $i = $left;
+        $j = $mid + 1;
+        while ($i <= $mid && $j <= $right) {
+            $tmp[$index++] = $arr[$i] <= $arr[$j] ? $arr[$i++] : $arr[$j++];
+        }
+        while ($i <= $mid) {
+            $tmp[$index++] = $arr[$i++];
+        }
+        while ($j<=$right) {
+            $tmp[$index++] = $arr[$j++];
+        }
+        for ($k=0;$k<$len; $k++) {
+            $arr[$left++] = $tmp[$k];
+        }
+    }
+
+    public static function mergeSortRecursion(&$arr, $left, $right) {
+        if ($left === $right) {
+            return;
+        }
+        $mid = (int)(($left + $right) / 2);
+        self::mergeSortRecursion($arr, $left, $mid);
+        self::mergeSortRecursion($arr, $mid + 1, $right);
+        self::merge($arr, $left, $mid, $right);
+        return $arr;
+    }
+
+    public static function mergeSortIteration($arr, $len) {
+        for ($i=1; $i<$len; $i *= 2) {
+            $left = 0;
+            while ($left + $i < $len) {
+                $mid = $left + $i - 1;
+                $right = $mid + $i < $len ? $mid + $i : $len - 1;
+                self::merge($arr, $left, $mid, $right);
+                $left = $right + 1;
+            }
+        }
+        return $arr;
+    }
+
+    /**
+     * 堆排序 O(nlogn)
+     */
+    public static function heapify(&$arr, $i, $len) {
+        $leftChild = 2 * $i + 1;
+        $rightChild = 2 * $i + 2;
+        $max = $i;
+        if ($leftChild < $len && $arr[$leftChild] > $arr[$max]) {
+            $max = $leftChild;
+        }
+        if ($rightChild < $len && $arr[$rightChild] > $arr[$max]) {
+            $max = $rightChild;
+        }
+        if ($max != $i) {
+            $tmp = $arr[$i];
+            $arr[$i] = $arr[$max];
+            $arr[$max] = $tmp;
+            self::heapify($arr, $max, $len);
+        }
+    }
+
+    public static function buildHeap(&$arr, $len) {
+        $heapSize = $len;
+        for ($i=(int)($heapSize/2 -1); $i >= 0; $i--) {
+            self::heapify($arr, $i, $heapSize);
+        }
+        return $heapSize;
+    }
+
+    public static function heapSort($arr) {
+        $len = count($arr);
+        $heapSize = self::buildHeap($arr, $len);
+        while ($heapSize > 1) {
+            --$heapSize;
+            $tmp = $arr[0];
+            $arr[0] = $arr[$heapSize];
+            $arr[$heapSize] = $tmp;
+            self::heapify($arr, 0, $heapSize);
+        }
+        return $arr;
+    }
+
 }
 
-// print_r(Algorithm::shellSort([1,3,6,7,9,2,4,8,5]));
+print_r(Algorithm::heapSort([1,3,6,7,9,2,4,8,5]));
