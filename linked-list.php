@@ -98,6 +98,7 @@ class LinkList
         return trim($str, '-');
     }
 
+    // 单链表反转
     public function revers(): bool
     {
 
@@ -107,7 +108,7 @@ class LinkList
 
         $currNode = $this->head;
         $pre = null;
-        while ($currNode) {
+        while (!is_null($currNode)) {
             $tmp = $currNode->next;
             $currNode->next = $pre;
             $pre = $currNode;
@@ -117,6 +118,28 @@ class LinkList
         $this->head = $pre;
         return true;
     }
+
+    // 环检测
+    public function checkHoop(): bool
+    {
+        if (is_null($this->head)) {
+            return false;
+        }
+
+        $p1 = $this->head; // 指针1
+        $p2 = $this->head; // 指针2
+
+        while (!is_null($p1)) {
+            $p1 = $p1->next;
+            $p2 = $p2->next->next;
+
+            if ($p1 === $p2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
 $class = new LinkList();
@@ -126,10 +149,15 @@ $class->insert(3, 1);
 $class->insert(5, 2);
 $class->insert(7, 3);
 $class->insert(9, 4);
+$class->insert(9, 5);
 // $r = $class->view();
 // print_r($r);
 // echo PHP_EOL;
 // $class->remove(2);
-$class->revers();
-$r = $class->view();
+// $class->revers();
+// $r = $class->view();
+
+$r = $class->checkHoop();
+var_dump($r);
+
 print_r($r);
