@@ -324,6 +324,86 @@ class Algorithm {
         return $arr;
     }
 
+    public static function quickSort2($arr)
+    {
+        $len = count($arr);
+        if ($len < 2) {
+            return $arr;
+        }
+
+        $aRight = [];
+        $aLeft = [];
+        $m = $arr[0];
+        for ($i = 1; $i<$len; $i++) {
+            if ($arr[$i] > $m) {
+                $aRight[] = $arr[$i];
+            } else {
+                $aLeft[] = $arr[$i];
+            }
+        }
+
+        $aLeft = self::quickSort2($aLeft);
+        $aRight = self::quickSort2($aRight);
+        return array_merge($aLeft, [$m], $aRight);
+    }
+
+    public static function mpSort($arr)
+    {
+        $count = count($arr);
+
+        for ($i=0; $i<$count; $i++) {
+            $swap = false;
+            for ($j=0; $j<$count-$i-1; $j++) {
+                if ($arr[$j] > $arr[$j+1]) {
+                    $tmp = $arr[$j+1];
+                    $arr[$j+1] = $arr[$j];
+                    $arr[$j] = $tmp;
+                    $swap = true;
+                }
+            }
+            if ($swap === false) {
+                break;
+            }
+        }
+
+        return $arr;
+    }
+
+    public static function selectSort2($arr)
+    {
+        $count = count($arr);
+        for ($i=0; $i<$count-1; $i++) {
+            $min = $i;
+            for ($j=$i+1; $j<$count; $j++) {
+                if ($arr[$j] < $arr[$min]) {
+                    $min = $j;
+                }
+            }
+            if ($min != $i) {
+                $tmp = $arr[$i];
+                $arr[$i] = $arr[$min];
+                $arr[$min] = $tmp;
+            }
+        }
+        return $arr;
+    }
+
+    public static function insertSort2($arr)
+    {
+        $count = count($arr);
+        for ($i=0; $i<$count; $i++) {
+            $val = $arr[$i];
+            $j = $i-1;
+            while ($j >= 0 && $arr[$j] > $val) {
+                $arr[$j+1] = $arr[$j];
+                $j--;
+            }
+
+            $arr[$j+1] = $val;
+        }
+        return $arr;
+    }
+
 }
 
-print_r(Algorithm::heapSort([1,3,6,7,9,2,4,8,5]));
+print_r(Algorithm::insertSort2([5,3,6,7,9,2,4,8,1]));
