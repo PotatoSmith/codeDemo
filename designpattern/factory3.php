@@ -1,5 +1,5 @@
 <?php
-
+// 抽象工厂
 interface AnimalFactory
 {
     public function createCat();

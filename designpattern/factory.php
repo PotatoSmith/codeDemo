@@ -1,5 +1,5 @@
 <?php
-
+// 简单工厂
 interface animals
 {
     public function animal();

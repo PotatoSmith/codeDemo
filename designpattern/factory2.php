@@ -1,5 +1,5 @@
 <?php
-
+// 工厂方法
 abstract class animals
 {
     abstract public function animal();
